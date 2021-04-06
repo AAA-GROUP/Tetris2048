@@ -114,18 +114,18 @@ class GameGrid:
       scr = score
       for row in range(self.grid_height):
          for col in range(self.grid_width):
+            # Counts filled tiles.
             if self.is_occupied(row,col):
                ctr += 1
-               pt = Point()
-               pt.x = col
-               pt.y = row
 
+         # Check if row is full
          if ctr == self.grid_width:
+            # Delete full row and add to score
             for y in range(self.grid_width):
                scr += self.tile_matrix[row][y].get_number()
                self.tile_matrix[row][y] = None
 
-
+               # Update grid and tile matrix in that particular column
                for x in range(self.grid_height-1):
                   if self.tile_matrix[x+1][y] is not None:
                      temp = self.tile_matrix[x+1][y]
