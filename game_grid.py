@@ -111,7 +111,7 @@ class GameGrid:
 
    def clean_row(self,score):
       ctr = 0
-      scr = score
+      scr = score # to keep score
       for row in range(self.grid_height):
          for col in range(self.grid_width):
             # Counts filled tiles.
