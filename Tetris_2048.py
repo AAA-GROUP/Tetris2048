@@ -16,10 +16,10 @@ def start():
    # set the dimensions of the game grid
    grid_h, grid_w = 20, 12
    # set the size of the drawing canvas
-   canvas_h, canvas_w = 40 * grid_h, 40 * grid_w
-   stddraw.setCanvasSize(canvas_w, canvas_h) 
+   canvas_h, canvas_w = 40 * grid_h, 40 * (grid_w + 10)
+   stddraw.setCanvasSize(canvas_w + 10, canvas_h)
    # set the scale of the coordinate system
-   stddraw.setXscale(-0.5, grid_w - 0.5)
+   stddraw.setXscale(-0.5, grid_w + 9.5)
    stddraw.setYscale(-0.5, grid_h - 0.5)
    
    # create the game grid
@@ -34,6 +34,10 @@ def start():
    
    # main game loop (keyboard interaction for moving the tetromino) 
    while True:
+      txt = "Score\n " + str(score)
+      stddraw.setPenRadius(1)
+      stddraw.setPenColor(Color(0,0,0))
+      stddraw.boldText(grid_w + 5, 14, txt)
       # check user interactions via the keyboard
       if stddraw.hasNextKeyTyped():
          key_typed = stddraw.nextKeyTyped()
@@ -59,6 +63,7 @@ def start():
       # move (drop) the tetromino down by 1 at each iteration 
       success = current_tetromino.move("down", grid)
       grid.clean_row(score)
+
       # place the tetromino on the game grid when it cannot go down anymore
       if not success:
          # get the tile matrix of the tetromino
@@ -123,7 +128,7 @@ def display_game_menu(grid_height, grid_width):
    # menu interaction loop
    while True:
       # display the menu and wait for a short time (50 ms)
-      stddraw.show(17)
+      stddraw.show(50)
       # check if the mouse has been left-clicked
       if stddraw.mousePressed():
          # get the x and y coordinates of the location at which the mouse has 
