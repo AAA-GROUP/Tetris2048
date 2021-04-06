@@ -12,6 +12,7 @@ import math
 #-------------------------------------------------------------------------------
 # Main function where this program starts execution
 def start():
+   x = 5
    score = 0
    # set the dimensions of the game grid
    grid_h, grid_w = 20, 12
