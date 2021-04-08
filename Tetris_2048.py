@@ -1,7 +1,7 @@
 import stddraw # the stddraw module is used as a basic graphics library
 import random # used for creating tetrominoes with random types/shapes
 from game_grid import GameGrid # class for modeling the game grid
-from tetromino import Tetromino # class for modeling the tetrominoes
+from tetromino_left_rotation import Tetromino # class for modeling the tetrominoes
 from picture import Picture # used representing images to display
 import os # used for file and directory operations
 from color import Color # used for coloring the game menu
