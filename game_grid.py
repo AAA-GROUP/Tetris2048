@@ -134,7 +134,10 @@ class GameGrid:
                      self.tile_matrix[x][y] = temp
 
 
+
          ctr = 0
+
+      return scr
 
 
 

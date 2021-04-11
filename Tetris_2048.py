@@ -1,7 +1,7 @@
 import stddraw # the stddraw module is used as a basic graphics library
 import random # used for creating tetrominoes with random types/shapes
 from game_grid import GameGrid # class for modeling the game grid
-from tetromino_left_rotation import Tetromino # class for modeling the tetrominoes
+from tetromino import Tetromino # class for modeling the tetrominoes
 from picture import Picture # used representing images to display
 import os # used for file and directory operations
 from color import Color # used for coloring the game menu
@@ -34,10 +34,7 @@ def start():
    
    # main game loop (keyboard interaction for moving the tetromino) 
    while True:
-      txt = "Score\n " + str(score)
-      stddraw.setPenRadius(1)
-      stddraw.setPenColor(Color(0,0,0))
-      stddraw.boldText(grid_w + 5, 14, txt)
+
       # check user interactions via the keyboard
       if stddraw.hasNextKeyTyped():
          key_typed = stddraw.nextKeyTyped()
@@ -62,7 +59,8 @@ def start():
 
       # move (drop) the tetromino down by 1 at each iteration 
       success = current_tetromino.move("down", grid)
-      grid.clean_row(score)
+      score = grid.clean_row(score)
+
 
       # place the tetromino on the game grid when it cannot go down anymore
       if not success:

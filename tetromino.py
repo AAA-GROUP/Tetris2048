@@ -6,6 +6,7 @@ import math
 
 # Class used for representing tetrominoes with 3 out of 7 different types/shapes 
 # as (I, O and Z)
+#Hello, world!
 class Tetromino:
    # Constructor to create a tetromino with a given type (shape)
    def __init__(self, type, grid_height, grid_width):
@@ -146,7 +147,7 @@ class Tetromino:
          for j in range(n):
             if self.tile_matrix[i][j] is not None:
                pos = self.tile_matrix[i][j].get_position()
-               print(pos.x, pos.y)
+               #print(pos.x, pos.y)
 
                # subtract first positions
                pos.x -= first_pos_x
