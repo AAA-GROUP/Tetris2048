@@ -127,7 +127,7 @@ class Tetromino:
       return True  # successful move in the given direction
 
 
-      # "rotate method" rotates by +90 (left)
+   # "rotate method" rotates by +90 (left)
    def rotate(self):
       n = len(self.tile_matrix)
       first_pos_x = self.bottom_left_corner.x
