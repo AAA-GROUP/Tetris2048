@@ -19,8 +19,12 @@ class Tile:
       # assign the number on the tile
       self.number = 2**random.randint(1,3)
 
+      # Coloring algorithm
+      c1 = int(256/(self.number-1) + 90) % 256
+      c2 = int(256/(self.number+1) + 90) % 256
+      c3 = int(256/self.number + 90) % 256
       # set the colors of the tile
-      self.background_color = Color(247, 237, int(213/self.number)) # background (tile) color
+      self.background_color = Color(c1, c2, c3) # background (tile) color
       self.foreground_color = Color(0, 100, 200) # foreground (number) color
       self.boundary_color = Color(0, 100, 200) # boundary (box) color
       # set the position of the tile as the given position
