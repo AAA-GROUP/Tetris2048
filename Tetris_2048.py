@@ -60,11 +60,13 @@ def start():
 
       # move (drop) the tetromino down by 1 at each iteration 
       success = current_tetromino.move("down", grid)
-      score = grid.clean_row(score)
+      score += grid.clean_row(score)
+      score += grid.merge_tetrominos(score)
 
 
       # place the tetromino on the game grid when it cannot go down anymore
       if not success:
+
          # get the tile matrix of the tetromino
          tiles_to_place = current_tetromino.tile_matrix
          # update the game grid by adding the tiles of the tetromino

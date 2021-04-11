@@ -133,12 +133,44 @@ class GameGrid:
                      self.tile_matrix[x+1][y] = None
                      self.tile_matrix[x][y] = temp
 
-
-
          ctr = 0
 
       return scr
 
+   def merge_tetrominos(self, score):
 
+      height = self.grid_height
+      width = self.grid_width
+
+      for col in range(width):
+         did_merged = False
+         for row in range(height-1):
+
+            if self.tile_matrix[row+1][col] is not None and self.tile_matrix[row][col] is not None:
+               can_merged = self.tile_matrix[row][col].get_number() == self.tile_matrix[row+1][col].get_number()
+               if can_merged:
+                  score += self.tile_matrix[row][col].get_number()
+                  new_num = self.tile_matrix[row][col].get_number() * 2
+
+                  c1 = int(256 / (new_num - 1) + 90) % 256
+                  c2 = int(256 / (new_num + 1) + 90) % 256
+                  c3 = int(256 / new_num + 90) % 256
+
+                  self.tile_matrix[row][col].set_number(new_num)
+                  self.tile_matrix[row][col].set_color(c1,c2,c3)
+
+                  self.tile_matrix[row+1][col] = None
+                  did_merged = True
+
+            if did_merged:
+               for x in range(row,height-1):
+
+                  if self.tile_matrix[x+1][col] is not None:
+                     temp = self.tile_matrix[x+1][col]
+                     self.tile_matrix[x+1][col].move(0, -1)
+                     self.tile_matrix[x+1][col] = None
+                     self.tile_matrix[x][col] = temp
+
+      return score
 
 

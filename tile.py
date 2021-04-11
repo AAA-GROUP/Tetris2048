@@ -40,6 +40,12 @@ class Tile:
       # return the position of the tile
       return cp.copy(self.position) 
 
+   def set_color(self,c1,c2,c3):
+      self.background_color = Color(c1, c2, c3)  # background (tile) color
+
+   def set_number(self, number):
+      self.number = number
+
    def get_number(self):
       return self.number
 
