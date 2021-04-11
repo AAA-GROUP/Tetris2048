@@ -125,31 +125,43 @@ class Tetromino:
                   self.tile_matrix[row][col].move(0, -1)
       return True  # successful move in the given direction
 
+
+      # "rotate method" rotates by +90 (left)
    def rotate(self):
       n = len(self.tile_matrix)
-      n_mid = n >> 2
-      # Mid point of tetromino.
-      mid = Point()
-      mid.x = self.bottom_left_corner.x + n_mid + 1
-      mid.y = self.bottom_left_corner.y + n_mid + 1
+      first_pos_x = self.bottom_left_corner.x
+      first_pos_y = self.bottom_left_corner.y
 
+      # first transpose the matrix,
+      # then reverse rows to arrange the tile matrix as rotated by +90
+
+      # this tranposes the matrix
+      transposed = np.transpose(self.tile_matrix)
+      # this reverses rows
+      reversed_tile_matrix = np.flipud(transposed)
+      self.tile_matrix = reversed_tile_matrix
+
+      # update the tiles' positions
       for i in range(n):
          for j in range(n):
             if self.tile_matrix[i][j] is not None:
                pos = self.tile_matrix[i][j].get_position()
+               print(pos.x, pos.y)
 
-               # subtract tetromino coordinates from mid point
-               pos.x -= mid.x
-               pos.y -= mid.y
+               # subtract first positions
+               pos.x -= first_pos_x
+               pos.y -= first_pos_y
 
-               # rotate around origin and re-add x coordinates.
                temp = pos.x
-               pos.x = -pos.y + mid.x
-               pos.y = temp + mid.y
+               # temp = pos.y
+               pos.x = (n - 1 - pos.y) + first_pos_x
+               # pos.x = temp + first_pos_x
+               pos.y = temp + first_pos_y
+               # pos.y = (n - 1 - pos.x) + first_pos_y
                self.tile_matrix[i][j].set_position(pos)
 
-      # rotate matrix to prevent some bugs.
-      self.tile_matrix = np.rot90(self.tile_matrix)
+      return True  # successful move in the given direction
+
 
    # Method to check if the tetromino can be moved in the given direction or not
    def can_be_moved(self, dir, game_grid):
