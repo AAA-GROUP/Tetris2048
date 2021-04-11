@@ -137,10 +137,7 @@ class Tetromino:
       # then reverse rows to arrange the tile matrix as rotated by +90
 
       # this tranposes the matrix
-      transposed = np.transpose(self.tile_matrix)
-      # this reverses rows
-      reversed_tile_matrix = np.flipud(transposed)
-      self.tile_matrix = reversed_tile_matrix
+
 
       # update the tiles' positions
       for i in range(n):
@@ -159,7 +156,13 @@ class Tetromino:
                # pos.x = temp + first_pos_x
                pos.y = temp + first_pos_y
                # pos.y = (n - 1 - pos.x) + first_pos_y
+
                self.tile_matrix[i][j].set_position(pos)
+
+      transposed = np.transpose(self.tile_matrix)
+      # this reverses rows
+      reversed_tile_matrix = np.flipud(transposed)
+      self.tile_matrix = reversed_tile_matrix
 
       return True  # successful move in the given direction
 

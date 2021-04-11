@@ -126,7 +126,7 @@ class GameGrid:
                self.tile_matrix[row][y] = None
 
                # Update grid and tile matrix in that particular column
-               for x in range(self.grid_height-1):
+               for x in range(row, self.grid_height-1):
                   if self.tile_matrix[x+1][y] is not None:
                      temp = self.tile_matrix[x+1][y]
                      self.tile_matrix[x+1][y].move(0, -1)
