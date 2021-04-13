@@ -186,3 +186,44 @@ class GameGrid:
       return score
 
 
+   def four_connected(self):
+      height = self.grid_height
+      width= self.grid_width
+      labeled_grid = np.zeros(shape=(height,width))
+      k = 0
+      for i in range(1,height-1):
+         for j in range(1, width-1):
+            if self.tile_matrix[i][j] is not None:
+               if self.tile_matrix[i-1][j] is None and self.tile_matrix[i][j - 1] is None:
+                  k += 1
+                  labeled_grid[i][j] = k
+
+               elif self.tile_matrix[i - 1][j] is not None and self.tile_matrix[i][j - 1] is None:
+                  labeled_grid[i][j] = labeled_grid[i - 1][j]
+
+               elif self.tile_matrix[i - 1][j] is None and self.tile_matrix[i][j - 1] is not None:
+                  labeled_grid[i][j] = labeled_grid[i][j - 1]
+
+               elif self.tile_matrix[i - 1][j] is not None and self.tile_matrix[i][j - 1] is not None:
+                  if labeled_grid[i - 1][j] == labeled_grid[i][j - 1]:
+                     labeled_grid[i][j] = labeled_grid[i][j - 1]
+
+                  else:
+                     labeled_grid[i][j] = labeled_grid[i-1][j]
+                     self.__change_label(labeled_grid, labeled_grid[i - 1][j], labeled_grid[i][j - 1], i, j)
+
+
+      return labeled_grid
+
+
+
+   def __change_label(self,label ,up_lbl, left_lbl, i, j):
+      for x in range(i-1):
+         for y in range(j):
+            if label[x][y] == left_lbl:
+               label[x][y] = up_lbl
+
+
+      for n in range(j-1):
+         if label[i][n] == left_lbl:
+            label[i][n] = up_lbl
