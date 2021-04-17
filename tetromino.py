@@ -3,10 +3,19 @@ from tile import Tile # used for representing each tile on the tetromino
 from point import Point # used for tile positions
 import numpy as np # fundamental Python module for scientific computing
 import math
+<<<<<<< Updated upstream
 #asd
 # Class used for representing tetrominoes with 3 out of 7 different types/shapes 
 # as (I, O and Z)
 #Hello, world!
+=======
+
+# Class used for representing tetrominoes with 3 out of 7 different types/shapes 
+# as (I, O and Z)
+# asd asda asdasda
+
+
+>>>>>>> Stashed changes
 class Tetromino:
    # Constructor to create a tetromino with a given type (shape)
    def __init__(self, type, grid_height, grid_width):
@@ -100,7 +109,23 @@ class Tetromino:
                if position.y < self.grid_height:
                   self.tile_matrix[row][col].draw() 
 
+<<<<<<< Updated upstream
    # Method for moving the tetromino in a given direction by 1 on the game grid
+=======
+   def drawNext(self):
+      n = len(self.tile_matrix)  # n = number of rows = number of columns
+      for row in range(n):
+         for col in range(n):
+            # draw each occupied tile (not equal to None) on the game grid
+            if self.tile_matrix[row][col] != None:
+               # considering newly entered tetrominoes to the game grid that may
+               # have tiles with position.y >= grid_height
+               position = self.tile_matrix[row][col].get_position()
+               if position.y < self.grid_height:
+                  self.tile_matrix[14][13].draw()
+
+                  # Method for moving the tetromino in a given direction by 1 on the game grid
+>>>>>>> Stashed changes
    def move(self, direction, game_grid):
       # check if the tetromino can be moved in the given direction by using the
       # can_be_moved method defined below
@@ -127,7 +152,11 @@ class Tetromino:
       return True  # successful move in the given direction
 
 
+<<<<<<< Updated upstream
    # "rotate method" rotates by +90 (left)
+=======
+      # "rotate method" rotates by +90 (left)
+>>>>>>> Stashed changes
    def rotate(self):
       n = len(self.tile_matrix)
       first_pos_x = self.bottom_left_corner.x
@@ -137,7 +166,14 @@ class Tetromino:
       # then reverse rows to arrange the tile matrix as rotated by +90
 
       # this tranposes the matrix
+<<<<<<< Updated upstream
 
+=======
+      transposed = np.transpose(self.tile_matrix)
+      # this reverses rows
+      reversed_tile_matrix = np.flipud(transposed)
+      self.tile_matrix = reversed_tile_matrix
+>>>>>>> Stashed changes
 
       # update the tiles' positions
       for i in range(n):
@@ -156,6 +192,7 @@ class Tetromino:
                # pos.x = temp + first_pos_x
                pos.y = temp + first_pos_y
                # pos.y = (n - 1 - pos.x) + first_pos_y
+<<<<<<< Updated upstream
 
                self.tile_matrix[i][j].set_position(pos)
 
@@ -164,6 +201,10 @@ class Tetromino:
       reversed_tile_matrix = np.flipud(transposed)
       self.tile_matrix = reversed_tile_matrix
 
+=======
+               self.tile_matrix[i][j].set_position(pos)
+
+>>>>>>> Stashed changes
       return True  # successful move in the given direction
 
 

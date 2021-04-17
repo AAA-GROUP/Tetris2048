@@ -12,15 +12,19 @@ import math
 #-------------------------------------------------------------------------------
 # Main function where this program starts execution
 def start():
+<<<<<<< Updated upstream
    print("hello!")
    score = 0
+=======
+   score = 2
+>>>>>>> Stashed changes
    # set the dimensions of the game grid
    grid_h, grid_w = 20, 12
    # set the size of the drawing canvas
-   canvas_h, canvas_w = 40 * grid_h, 40 * (grid_w + 10)
-   stddraw.setCanvasSize(canvas_w + 10, canvas_h)
+   canvas_h, canvas_w = 40 * grid_h, 40 * (grid_w + 4)
+   stddraw.setCanvasSize(canvas_w, canvas_h)
    # set the scale of the coordinate system
-   stddraw.setXscale(-0.5, grid_w + 9.5)
+   stddraw.setXscale(-0.5, grid_w + 4.5)
    stddraw.setYscale(-0.5, grid_h - 0.5)
    
    # create the game grid
@@ -28,11 +32,13 @@ def start():
    # create the first tetromino to enter the game grid 
    # by using the create_tetromino function defined below
    current_tetromino = create_tetromino(grid_h, grid_w)
+   next_tetromino = create_tetromino(grid_h, grid_w)
    grid.current_tetromino = current_tetromino
 
    # display a simple menu before opening the game
    display_game_menu(grid_h, grid_w)
-   
+   print("1")
+
    # main game loop (keyboard interaction for moving the tetromino) 
    while True:
 
@@ -54,7 +60,10 @@ def start():
             current_tetromino.move(key_typed, grid)
          elif key_typed == "r":
             current_tetromino.rotate()
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
          # clear the queue that stores all the keys pressed/typed
          stddraw.clearKeysTyped()
 
@@ -69,16 +78,19 @@ def start():
          tiles_to_place = current_tetromino.tile_matrix
          # update the game grid by adding the tiles of the tetromino
          game_over = grid.update_grid(tiles_to_place)
+         print("3")
+
          # end the main game loop if the game is over
          if game_over:
             break
          # create the next tetromino to enter the game grid
          # by using the create_tetromino function defined below
-         current_tetromino = create_tetromino(grid_h, grid_w)
+         current_tetromino = next_tetromino
+         next_tetromino = create_tetromino(grid_h, grid_w)
          grid.current_tetromino = current_tetromino
-
+         grid.next_tetromino = next_tetromino
       # display the game grid and as well the current tetromino      
-      grid.display()
+      grid.display(score)
 
    print("Game over")
 
@@ -106,7 +118,7 @@ def display_game_menu(grid_height, grid_width):
    # path of the image file
    img_file = current_dir + "/menu_image.png"
    # center coordinates to display the image
-   img_center_x, img_center_y = (grid_width - 1) / 2, grid_height - 7
+   img_center_x, img_center_y = (grid_width - 2), grid_height - 7
    # image is represented using the Picture class
    image_to_display = Picture(img_file)
    # display the image
@@ -124,6 +136,8 @@ def display_game_menu(grid_height, grid_width):
    stddraw.setPenColor(text_color)
    text_to_display = "Click Here to Start the Game"
    stddraw.text(img_center_x, 5, text_to_display)
+
+
    # menu interaction loop
    while True:
       # display the menu and wait for a short time (50 ms)

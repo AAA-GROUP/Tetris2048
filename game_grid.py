@@ -14,6 +14,8 @@ class GameGrid:
       self.tile_matrix = np.full((grid_h, grid_w), None)
       # the tetromino that is currently being moved on the game grid
       self.current_tetromino = None
+      # the next tetromino
+      self.next_tetromino = None
       # game_over flag shows whether the game is over/completed or not
       self.game_over = False
       # set the color used for the empty grid cells
@@ -26,21 +28,23 @@ class GameGrid:
       self.box_thickness = 8 * self.line_thickness
 
    # Method used for displaying the game grid
-   def display(self):
+   def display(self, score):
       # clear the background canvas to empty_cell_color
       stddraw.clear(self.empty_cell_color)
       # draw the game grid
-      self.draw_grid()
+      self.draw_grid(score)
       # draw the current (active) tetromino
       if self.current_tetromino != None:
          self.current_tetromino.draw()
+      if self.next_tetromino != None:
+         self.next_tetromino.drawNext()
       # draw a box around the game grid 
       self.draw_boundaries()
       # show the resulting drawing with a pause duration = 250 ms
       stddraw.show(250)
          
    # Method for drawing the cells and the lines of the grid
-   def draw_grid(self):
+   def draw_grid(self, score):
       # draw each cell of the game grid
       for row in range(self.grid_height):
          for col in range(self.grid_width):
@@ -58,7 +62,13 @@ class GameGrid:
       for y in np.arange(start_y + 1, end_y, 1):  # horizontal inner lines
          stddraw.line(start_x, y, end_x, y)
       stddraw.setPenRadius()  # reset the pen radius to its default value            
-      
+      stddraw.setFontFamily("Arial")
+      stddraw.setFontSize(25)
+      stddraw.setPenColor(Color(31, 160, 239))
+      a = score
+      stddraw.boldText(14.1, 17, str(a))
+      stddraw.text(14, 18, "Score")
+      stddraw.text(14, 14, "Next Shape")
    # Method for drawing the boundaries around the game grid 
    def draw_boundaries(self):
       # draw a bounding box around the game grid as a rectangle
@@ -109,24 +119,26 @@ class GameGrid:
       # return the game_over flag
       return self.game_over
 
-   def clean_row(self,score):
+   def clean_row(self, score):
       ctr = 0
-      scr = score # to keep score
+      scr = score
+      #scr = score # to keep score
       for row in range(self.grid_height):
          for col in range(self.grid_width):
             # Counts filled tiles.
-            if self.is_occupied(row,col):
+            if self.is_occupied(row, col):
                ctr += 1
 
          # Check if row is full
          if ctr == self.grid_width:
             # Delete full row and add to score
             for y in range(self.grid_width):
-               scr += self.tile_matrix[row][y].get_number()
+               scr = scr + int(self.tile_matrix[row][y].get_number())
                self.tile_matrix[row][y] = None
+               #score = scr
 
                # Update grid and tile matrix in that particular column
-               for x in range(row, self.grid_height-1):
+               for x in range(self.grid_height-1):
                   if self.tile_matrix[x+1][y] is not None:
                      temp = self.tile_matrix[x+1][y]
                      self.tile_matrix[x+1][y].move(0, -1)
@@ -136,7 +148,10 @@ class GameGrid:
 
 
          ctr = 0
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
       return scr
 
 
