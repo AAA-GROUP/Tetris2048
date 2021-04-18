@@ -235,6 +235,28 @@ class GameGrid:
       for n in range(j):
          if label[i][n] == left_lbl:
             label[i][n] = up_lbl
+	
+    
 
+    def find_different_labels(self, labeled_grid):
 
+        coordinates_array = np.zeros((10,2), dtype=np.int8)
+        num_of_single_labels = 0
+        for x in range(1, self.grid_height + 1):
+            for y in range(1, self.grid_width + 1):
+                a = labeled_grid[x][y]
+                count = 0
+                for j in range(1, self.grid_height + 1):
+                    for k in range(1, self.grid_width + 1):
+                        if labeled_grid[j][k] == a:
+                            count += 1
+                if count == 1:
+                    row_and_column = np.where(labeled_grid == a)
+                    # assigning the corresponding coordinates of the tiles that have
+                    # a different label from the others
+                    coordinates_array[num_of_single_labels] = (row_and_column[1] - 1, row_and_column[0] - 1)
+                    num_of_single_labels += 1
+        coordinates_array.resize((num_of_single_labels, 2), refcheck=False)
+
+        return coordinates_array
 
