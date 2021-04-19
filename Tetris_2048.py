@@ -62,8 +62,6 @@ def start():
             if not x:  # x == False
                current_tetromino.rotate_left(grid)
 
-         elif key_typed == "c":
-            f = 4
 
          # clear the queue that stores all the keys pressed/typed
          stddraw.clearKeysTyped()
