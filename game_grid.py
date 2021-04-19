@@ -238,7 +238,7 @@ class GameGrid:
 	
     
 
-    def find_different_labels(self, labeled_grid):
+        def find_different_labels(self, labeled_grid):
 
         coordinates_array = np.zeros((10,2), dtype=np.int8)
         num_of_single_labels = 0
@@ -250,13 +250,34 @@ class GameGrid:
                     for k in range(1, self.grid_width + 1):
                         if labeled_grid[j][k] == a:
                             count += 1
+                # assigning the corresponding coordinates of the tiles that have
+                # a different label from the others
                 if count == 1:
                     row_and_column = np.where(labeled_grid == a)
-                    # assigning the corresponding coordinates of the tiles that have
-                    # a different label from the others
-                    coordinates_array[num_of_single_labels] = (row_and_column[1] - 1, row_and_column[0] - 1)
-                    num_of_single_labels += 1
+                    # do not include the tiles with the coordinate y = 0
+                    if row_and_column[0] - 1 != 0:
+                        coordinates_array[num_of_single_labels] = (row_and_column[1] - 1, row_and_column[0] - 1)
+                        num_of_single_labels += 1
+
         coordinates_array.resize((num_of_single_labels, 2), refcheck=False)
 
         return coordinates_array
 
+    def move_single_tile(self):
+
+        single_labeled_tiles = self.find_different_labels(self.four_connected())
+        if len(single_labeled_tiles) != 0:
+            for k in range(len(single_labeled_tiles)):
+                i = 0
+                if single_labeled_tiles[k][1] - i > 0:
+                    while self.tile_matrix[single_labeled_tiles[k][1] - i + -1][single_labeled_tiles[k][0]] == None:
+                        if self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0] + 1] is not None:
+                            break
+                        if self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0] - 1] is not None:
+                            break
+
+                        temp = self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]]
+                        self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]].move(0, - 1)
+                        self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]] = None
+                        self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
+                        i += 1
