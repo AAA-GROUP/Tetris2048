@@ -67,6 +67,12 @@ def start():
 
       # move (drop) the tetromino down by 1 at each iteration 
       success = current_tetromino.move("down", grid)
+      
+      x = grid.four_connected()
+      y = grid.find_different_labels(x)
+
+      if len(y) != 0:
+           grid.move_single_tile()
 
       score += grid.merge_tetrominos(score) # merges same numbered tiles.
       score += grid.clean_row(score) # cleans row if row is full.
