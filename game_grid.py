@@ -26,11 +26,11 @@ class GameGrid:
       self.box_thickness = 8 * self.line_thickness
 
    # Method used for displaying the game grid
-   def display(self):
+   def display(self,score):
       # clear the background canvas to empty_cell_color
       stddraw.clear(self.empty_cell_color)
       # draw the game grid
-      self.draw_grid()
+      self.draw_grid(score)
       # draw the current (active) tetromino
       if self.current_tetromino != None:
          self.current_tetromino.draw()
@@ -40,7 +40,7 @@ class GameGrid:
       stddraw.show(300)
          
    # Method for drawing the cells and the lines of the grid
-   def draw_grid(self):
+   def draw_grid(self,score):
       # draw each cell of the game grid
       for row in range(self.grid_height):
          for col in range(self.grid_width):
@@ -57,7 +57,15 @@ class GameGrid:
          stddraw.line(x, start_y, x, end_y)
       for y in np.arange(start_y + 1, end_y, 1):  # horizontal inner lines
          stddraw.line(start_x, y, end_x, y)
-      stddraw.setPenRadius()  # reset the pen radius to its default value            
+      stddraw.setPenRadius()  # reset the pen radius to its default value
+      stddraw.setPenRadius()  # reset the pen radius to its default value
+      stddraw.setFontFamily("Arial")
+      stddraw.setFontSize(25)
+      stddraw.setPenColor(Color(31, 160, 239))
+      a = score
+      stddraw.boldText(14.1, 17, str(a))
+      stddraw.text(14, 18, "Score")
+      stddraw.text(14, 14, "Next Shape")
       
    # Method for drawing the boundaries around the game grid 
    def draw_boundaries(self):

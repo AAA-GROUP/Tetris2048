@@ -96,7 +96,7 @@ def start():
          grid.current_tetromino = current_tetromino
 
       # display the game grid and as well the current tetromino      
-      grid.display()
+      grid.display(score)
 
    print("Game over")
 
