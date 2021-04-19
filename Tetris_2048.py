@@ -62,9 +62,6 @@ def start():
             if not x:  # x == False
                current_tetromino.rotate_left(grid)
 
-         elif key_typed == "c":
-            f = 4
-
          # clear the queue that stores all the keys pressed/typed
          stddraw.clearKeysTyped()
 
@@ -77,8 +74,8 @@ def start():
       if len(y) != 0:
            grid.move_single_tile()
 
-      score = grid.merge_tetrominos(score) # merges same numbered tiles.
-      score = grid.clean_row(score) # cleans row if row is full.
+      score += grid.merge_tetrominos(score) # merges same numbered tiles.
+      score += grid.clean_row(score) # cleans row if row is full.
 
 
 

@@ -37,7 +37,7 @@ class GameGrid:
       # draw a box around the game grid 
       self.draw_boundaries()
       # show the resulting drawing with a pause duration = 250 ms
-      stddraw.show(300)
+      stddraw.show(250)
          
    # Method for drawing the cells and the lines of the grid
    def draw_grid(self):
@@ -156,8 +156,8 @@ class GameGrid:
             if self.tile_matrix[row+1][col] is not None and self.tile_matrix[row][col] is not None:
                can_merged = self.tile_matrix[row][col].get_number() == self.tile_matrix[row+1][col].get_number()
                if can_merged:
+                  score += self.tile_matrix[row][col].get_number() # update score
                   new_num = self.tile_matrix[row][col].get_number() * 2 # update tile number
-                  score += new_num  # update score
 
                   # update color
                   c1 = int(256 / (new_num - 1) + 90) % 256
@@ -186,7 +186,7 @@ class GameGrid:
       return score
 
 
-   def four_connected(self):
+   def __four_connected(self):
       height = self.grid_height
       width= self.grid_width
       labeled_grid = np.zeros(shape=(height+2, width+2))
@@ -223,6 +223,8 @@ class GameGrid:
 
       return labeled_grid
 
+
+
    def __change_label(self,label ,up_lbl, left_lbl, i, j):
       for x in range(i):
          for y in range(j):
@@ -233,8 +235,10 @@ class GameGrid:
       for n in range(j):
          if label[i][n] == left_lbl:
             label[i][n] = up_lbl
+	
+    
 
-   def find_different_labels(self, labeled_grid):
+        def find_different_labels(self, labeled_grid):
 
         coordinates_array = np.zeros((10,2), dtype=np.int8)
         num_of_single_labels = 0
@@ -259,7 +263,7 @@ class GameGrid:
 
         return coordinates_array
 
-   def move_single_tile(self):
+    def move_single_tile(self):
 
         single_labeled_tiles = self.find_different_labels(self.four_connected())
         if len(single_labeled_tiles) != 0:
