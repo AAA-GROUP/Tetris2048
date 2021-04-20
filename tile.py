@@ -68,3 +68,20 @@ class Tile:
       stddraw.setFontFamily(Tile.font_family)
       stddraw.setFontSize(Tile.font_size)
       stddraw.boldText(self.position.x, self.position.y, str(self.number))
+      print(self.position.x, self.position.y)
+
+   def drawNext(self, xa, yb):
+
+      # draw the tile as a filled square
+      stddraw.setPenColor(self.background_color)
+      stddraw.filledSquare(14+self.position.x-xa, 12+self.position.y-yb, 0.5)
+      # draw the bounding box of the tile as a square
+      stddraw.setPenColor(self.boundary_color)
+      stddraw.setPenRadius(Tile.boundary_thickness)
+      stddraw.square(14+self.position.x-xa, 12+self.position.y-yb, 0.5)
+      stddraw.setPenRadius()  # reset the pen radius to its default value
+      # draw the number on the tile
+      stddraw.setPenColor(self.foreground_color)
+      stddraw.setFontFamily(Tile.font_family)
+      stddraw.setFontSize(Tile.font_size)
+      stddraw.boldText(14+self.position.x-xa, 12+self.position.y-yb, str(self.number))
