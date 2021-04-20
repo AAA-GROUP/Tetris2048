@@ -293,11 +293,9 @@ class GameGrid:
                if single_labeled_tiles[k][1] - i > 0:
                    while self.tile_matrix[single_labeled_tiles[k][1] - i + -1][single_labeled_tiles[k][0]] == None:
                        try:
-                           if self.tile_matrix[single_labeled_tiles[k][1] - i][
-                               single_labeled_tiles[k][0] + 1] is not None:
+                           if self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0] + 1] is not None:
                                break
-                           if self.tile_matrix[single_labeled_tiles[k][1] - i][
-                               single_labeled_tiles[k][0] - 1] is not None:
+                           if self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0] - 1] is not None:
                                break
                        except IndexError:
                            pass

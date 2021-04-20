@@ -68,7 +68,7 @@ class Tile:
       stddraw.setFontFamily(Tile.font_family)
       stddraw.setFontSize(Tile.font_size)
       stddraw.boldText(self.position.x, self.position.y, str(self.number))
-      print(self.position.x, self.position.y)
+      #print(self.position.x, self.position.y)
 
    def drawNext(self, xa, yb):
 

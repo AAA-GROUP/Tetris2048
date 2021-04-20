@@ -110,7 +110,6 @@ def start():
       # display the game grid and as well the current tetromino      
       grid.display(score, next_tetromino)
 
-   print("Game over")
 
 
 # Function for creating random shaped tetrominoes to enter the game grid
@@ -253,12 +252,12 @@ def game_over_menu(grid_width, grid_height,grid,score):
          # get the x and y coordinates of the location at which the mouse has
          # most recently been left-clicked
          mouse_x, mouse_y = stddraw.mouseX(), stddraw.mouseY()
-         if key_typed == "ESC":
-            return True  # break the loop to end the method and start the game
+         if key_typed == "escape":
+            return True, 0  # break the loop to end the method and start the game
          elif key_typed == "r":
             grid.game_over = False # to exit game over loop
             score = grid.reset() # reset score and grid
-            return False,score # return score
+            return False, score # return score
 
 # start() function is specified as the entry point (main function) from which 
 # the program starts execution
