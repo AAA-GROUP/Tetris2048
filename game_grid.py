@@ -287,10 +287,10 @@ class GameGrid:
                         i += 1
 
 
-   def reset(self, score):
-      score = 0
+   def reset(self):
+      """Resets current game grid."""
       for i in range(self.grid_height):
          for j in range(self.grid_width):
             self.tile_matrix[i][j] = None
 
-      return score
+      return 0 #To reset score to zero.

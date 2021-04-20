@@ -92,10 +92,13 @@ def start():
          # update the game grid by adding the tiles of the tetromino
          game_over = grid.update_grid(tiles_to_place)
          # end the main game loop if the game is over
+
          if game_over:
             is_over,score = game_over_menu(grid_w+10,grid_h,grid,score)
+
             if is_over:
                break
+
 
          # create the next tetromino to enter the game grid
          # by using the create_tetromino function defined below
@@ -251,8 +254,9 @@ def game_over_menu(grid_width, grid_height,grid,score):
          if key_typed == "ESC":
             return True  # break the loop to end the method and start the game
          elif key_typed == "r":
-            score = grid.reset(score=score)
-            return False,score
+            grid.game_over = False # to exit game over loop
+            score = grid.reset() # reset score and grid
+            return False,score # return score
 
 # start() function is specified as the entry point (main function) from which 
 # the program starts execution
