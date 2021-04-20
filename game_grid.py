@@ -186,8 +186,8 @@ class GameGrid:
                   score += new_num  # update score
 
                   # update color
-                  c1 = int(256 / (new_num - 1) + 90) % 256
-                  c2 = int(256 / (new_num + 1) + 90) % 256
+                  c1 = int(256 / (new_num + 1) + 90) % 256
+                  c2 = int(256 / (new_num - 1) + 90) % 256
                   c3 = int(256 / new_num + 90) % 256
 
                   # update in matrix
@@ -303,3 +303,12 @@ class GameGrid:
                         self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]] = None
                         self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
                         i += 1
+
+
+   def reset(self):
+      """Resets current game grid."""
+      for i in range(self.grid_height):
+         for j in range(self.grid_width):
+            self.tile_matrix[i][j] = None
+
+      return 0 #To reset score to zero.
