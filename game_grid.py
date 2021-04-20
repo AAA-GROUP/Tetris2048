@@ -286,23 +286,28 @@ class GameGrid:
         return coordinates_array
 
    def move_single_tile(self):
+       single_labeled_tiles = self.find_different_labels(self.four_connected())
+       if len(single_labeled_tiles) != 0:
+           for k in range(len(single_labeled_tiles)):
+               i = 0
+               if single_labeled_tiles[k][1] - i > 0:
+                   while self.tile_matrix[single_labeled_tiles[k][1] - i + -1][single_labeled_tiles[k][0]] == None:
+                       try:
+                           if self.tile_matrix[single_labeled_tiles[k][1] - i][
+                               single_labeled_tiles[k][0] + 1] is not None:
+                               break
+                           if self.tile_matrix[single_labeled_tiles[k][1] - i][
+                               single_labeled_tiles[k][0] - 1] is not None:
+                               break
+                       except IndexError:
+                           pass
 
-        single_labeled_tiles = self.find_different_labels(self.four_connected())
-        if len(single_labeled_tiles) != 0:
-            for k in range(len(single_labeled_tiles)):
-                i = 0
-                if single_labeled_tiles[k][1] - i > 0:
-                    while self.tile_matrix[single_labeled_tiles[k][1] - i + -1][single_labeled_tiles[k][0]] == None:
-                        if self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0] + 1] is not None:
-                            break
-                        if self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0] - 1] is not None:
-                            break
 
-                        temp = self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]]
-                        self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]].move(0, - 1)
-                        self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]] = None
-                        self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
-                        i += 1
+                       temp = self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]]
+                       self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]].move(0, - 1)
+                       self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]] = None
+                       self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
+                       i += 1
 
 
    def reset(self):
