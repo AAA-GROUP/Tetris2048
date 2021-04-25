@@ -287,7 +287,6 @@ class Tetromino:
         print(mouse_x_position_on_grid)
 
         if mouse_x_position_on_grid <= grid.current_tetromino.bottom_left_corner.x:
-            print("su an sola gidiyoruz")
             a = 0
             while mouse_x_position_on_grid < grid.current_tetromino.bottom_left_corner.x or mouse_x_position_on_grid == 0:
                 if not grid.current_tetromino.move("left", grid):
@@ -300,7 +299,6 @@ class Tetromino:
 
 
         elif mouse_x_position_on_grid >= grid.current_tetromino.bottom_left_corner.x:
-            print("su an saga gidiyoruz")
             b = 0
             while mouse_x_position_on_grid > grid.current_tetromino.bottom_left_corner.x + len(
                     grid.current_tetromino.tile_matrix):
