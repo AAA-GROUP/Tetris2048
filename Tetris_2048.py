@@ -23,7 +23,7 @@ def start():
    canvas_h, canvas_w = 40 * grid_h, 40 * (grid_w + 10)
    stddraw.setCanvasSize(canvas_w + 10, canvas_h)
    # set the scale of the coordinate system
-   stddraw.setXscale(-0.5, grid_w + 9.5)
+   stddraw.setXscale(-1.5, grid_w + 9.5)
    stddraw.setYscale(-0.5, grid_h - 0.5)
    
    # create the game grid
