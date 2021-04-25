@@ -358,33 +358,36 @@ class GameGrid:
                        self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
                        i += 1
 
-   def drop_tetromino(self):
-      """A method that is used to calculate how many tiles are in between current tetromino location and
-         droppable tiles(Highest tile on y-axis)"""
+       def drop_tetromino(self):
+        """A method that is used to calculate how many tiles are in between current tetromino location and
+           droppable tiles(Highest tile on y-axis)"""
 
-      pos = self.current_tetromino.bottom_left_corner # bottom left of current tetromino
+        pos = self.current_tetromino.bottom_left_corner  # bottom left of current tetromino
 
+        n = len(self.current_tetromino.tile_matrix)  # length of current tetromino (4 at-max)
+        arr = np.full(shape=n, fill_value=pos.y)  # lowest y point in current tetromino
+        arr2 = np.zeros(
+            shape=n)  # array to store highest y boundaries row by row  (grid in same lineage with tetromino)
 
-      n = len(self.current_tetromino.tile_matrix) # length of current tetromino (4 at-max)
-      arr = np.full(shape=n, fill_value=pos.y) # lowest y point in current tetromino
-      arr2 = np.zeros(shape=n) # array to store highest y boundaries row by row  (grid in same lineage with tetromino)
+        try:  # exception catch
+            for j in range(pos.x, pos.x + n):  # searches loop between left to right by alignment to current tetromino
+                if self.current_tetromino.tile_matrix[j].all() is None:
+                    continue
+                for i in range(pos.y):  # searches between 0 to bottom
+                    if self.tile_matrix[i][j] is not None and self.tile_matrix[i + 1][
+                        j] is None:  # initial is filled, up is empty
+                        arr2[pos.x + n - j - 1] = i  # updates upmost point
+        except IndexError:
+            pass
 
+        # negates each corresponding element from each other
+        for x in range(len(arr)):
+            arr[x] = arr[x] - arr2[len(arr) - 1 - x]
 
+        min_num = min(arr) - 1  # initialize minimum distance between current tetromino and grid
 
-      try: # exception catch
-         for j in range(pos.x, pos.x + n): #searches loop between left to right by alignment to current tetromino
-            for i in range(pos.y): #searches between 0 to bottom
-               if self.tile_matrix[i][j] is not None and self.tile_matrix[i+1][j] is None: # initial is filled, up is empty
-                  arr2[pos.x+n-j-1] = i # updates upmost point
-      except IndexError:
-         pass
-
-      # negates each corresponding element from each other
-      for x in range(len(arr)):
-         arr[x] = arr[x] - arr2[len(arr)-1-x]
-
-      min_num = min(arr) - 1 # initialize minimum distance between current tetromino and grid
-      self.current_tetromino.drop_tetromino(min_num) # call drop_tetromino
+        #self.current_tetromino.drop_tetromino(min_num)  # call drop_tetromino
+        return min_num
 
 
 
