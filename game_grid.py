@@ -44,47 +44,51 @@ class GameGrid:
       stddraw.show(speed)
          
    # Method for drawing the cells and the lines of the grid
-   def draw_grid(self,score, next_tetromino):
-      # draw each cell of the game grid
-      for row in range(self.grid_height):
-         for col in range(self.grid_width):
-            # draw the tile if the grid cell is occupied by a tile
-            if self.tile_matrix[row][col] != None:
-               self.tile_matrix[row][col].draw()
+      def draw_grid(self, score, next_tetrominoes):
 
-      # draw the inner lines of the grid
-      stddraw.setPenColor(self.line_color)
-      stddraw.setPenRadius(self.line_thickness)
-      # x and y ranges for the game grid
-      start_x, end_x = -0.5, self.grid_width - 0.5
-      start_y, end_y = -0.5, self.grid_height - 0.5
-      for x in np.arange(start_x + 1, end_x, 1):  # vertical inner lines
-         stddraw.line(x, start_y, x, end_y)
-      for y in np.arange(start_y + 1, end_y, 1):  # horizontal inner lines
-         stddraw.line(start_x, y, end_x, y)
-      stddraw.setPenRadius()  # reset the pen radius to its default value
-      stddraw.setPenRadius()  # reset the pen radius to its default value
-      stddraw.setFontFamily("Arial")
-      stddraw.setFontSize(25)
-      stddraw.setPenColor(Color(31, 160, 239))
-      a = score
-      stddraw.boldText(14.1, 17, str(a))
-      stddraw.text(14, 18, "Score")
-      stddraw.text(14, 14, "Next Shape")
-      # draw each cell of the game grid
-      xa = -1
-      yb = -1
-      for row in range(len(next_tetromino.tile_matrix)):
-         for col in range(len(next_tetromino.tile_matrix)):
-            # draw the tile if the grid cell is occupied by a tile
 
-            if next_tetromino.tile_matrix[row][col] != None:
-               if(xa == -1):
-                  xa = next_tetromino.tile_matrix[row][col].position.x
-               if (yb == -1):
-                  yb = next_tetromino.tile_matrix[row][col].position.y
+       # draw each cell of the game grid
+       for row in range(self.grid_height):
+           for col in range(self.grid_width):
+               # draw the tile if the grid cell is occupied by a tile
+               if self.tile_matrix[row][col] != None:
+                   self.tile_matrix[row][col].draw()
+                   # draw the inner lines of the grid
+       stddraw.setPenColor(self.line_color)
+       stddraw.setPenRadius(self.line_thickness)
+       # x and y ranges for the game grid
+       start_x, end_x = -0.5, self.grid_width - 0.5
+       start_y, end_y = -0.5, self.grid_height - 0.5
+       for x in np.arange(start_x + 1, end_x, 1):  # vertical inner lines
+           stddraw.line(x, start_y, x, end_y)
+       for y in np.arange(start_y + 1, end_y, 1):  # horizontal inner lines
+           stddraw.line(start_x, y, end_x, y)
+       stddraw.setPenRadius()  # reset the pen radius to its default value
+       stddraw.setFontFamily("Arial")
+       stddraw.setFontSize(25)
+       stddraw.setPenColor(Color(31, 160, 239))
+       a = score
+       stddraw.boldText(14.1, 17, str(a))
+       stddraw.text(14, 18, "Score")
+       stddraw.text(14, 14, "Next Shapes")
+       i = 0
 
-               next_tetromino.tile_matrix[row][col].drawNext(xa, yb)
+       for i in range(1, len(next_tetrominoes)):
+           xa = -1
+           yb = -1
+           for row in range(len(next_tetrominoes[i].tile_matrix)):
+               for col in range(len(next_tetrominoes[i].tile_matrix)):
+                   # draw the tile if the grid cell is occupied by a tile
+                   if next_tetrominoes[i].tile_matrix[row][col] != None:
+                       if (xa == -1):
+                           xa = next_tetrominoes[i].tile_matrix[row][col].position.x
+                       if (yb == -1):
+                           yb = next_tetrominoes[i].tile_matrix[row][col].position.y
+                       if i == 1:
+                           next_tetrominoes[i].tile_matrix[row][col].draw_next(xa, yb)
+                       if i == 2:
+                           next_tetrominoes[i].tile_matrix[row][col].draw_next_second(xa, yb)
+
       
    # Method for drawing the boundaries around the game grid 
    def draw_boundaries(self):
