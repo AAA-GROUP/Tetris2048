@@ -18,15 +18,14 @@ class Tile:
    def __init__(self, position = Point(0, 0)): # (0, 0) is the default position
       # assign the number on the tile
       self.number = 2**random.randint(1,3)
-
+      self.foreground_color = Color(255, 238, 214)  # foreground (number) color
       # Coloring algorithm
       if self.number == 2:
          self.foreground_color = Color(130, 114, 92)
          c1 = 247
          c2 = 238
          c3 = 228
-      else:
-         self.foreground_color = Color(255, 238, 214)  # foreground (number) color
+
       if self.number == 4:
          self.foreground_color = Color(130, 114, 92)
          c1 = 240
@@ -36,10 +35,6 @@ class Tile:
          c1 = 237
          c2 = 187
          c3 = 153
-      if self.number == 16:
-         c1 = 255
-         c2 = 0
-         c3 = 0
 
       # set the colors of the tile
       self.background_color = Color(c1, c2, c3) # background (tile) color
