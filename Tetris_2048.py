@@ -43,7 +43,7 @@ def start():
          # if the left arrow key has been pressed
          if key_typed == "left":
             # move the tetromino left by one
-            current_tetromino.move(key_typed, grid) 
+            current_tetromino.move(key_typed, grid)
          # if the right arrow key has been pressed
          elif key_typed == "right":
             # move the tetromino right by one
@@ -63,8 +63,11 @@ def start():
             if not x:  # x == False
                current_tetromino.rotate_left(grid)
 
-         elif key_typed == "escape":
+         elif key_typed == "escape": # pause menu
             pause_menu(grid_h, grid_w+10)
+
+         elif key_typed == "up": # if up key is pressed, drops automatically buy maximum droppable level
+            grid.drop_tetromino()
 
 
          # clear the queue that stores all the keys pressed/typed
@@ -126,8 +129,8 @@ def create_tetromino(grid_height, grid_width):
 def display_game_menu(grid_height, grid_width):
    # colors used for the menu
    background_color = Color(247, 237, 213)
-   button_color = Color(10, 10, 10)
-   text_color = Color(31, 160, 239)
+   button_color = Color(31, 160, 239)
+   text_color = Color(10, 10, 10)
    # clear the background canvas to background_color
    stddraw.clear(background_color)
    # get the directory in which this python code file is placed
@@ -204,10 +207,8 @@ def pause_menu(grid_height, grid_width):
       stddraw.show(50)
       # check if the mouse has been left-clicked
       if stddraw.hasNextKeyTyped():
-         key_typed = stddraw.nextKeyTyped()
-         # get the x and y coordinates of the location at which the mouse has
-         # most recently been left-clicked
-         mouse_x, mouse_y = stddraw.mouseX(), stddraw.mouseY()
+         key_typed = stddraw.nextKeyTyped() #gets typed key from user
+
          if key_typed == "escape":
                break # break the loop to end the method and start the game
 
@@ -240,18 +241,17 @@ def game_over_menu(grid_width, grid_height,grid,score):
    stddraw.setFontFamily("Arial")
    stddraw.setFontSize(25)
    stddraw.setPenColor(text_color)
-   text_to_display = "Press R to reset \nPress ESC to exit"
+   text_to_display = "Press R to reset"
    stddraw.text(img_center_x, 5, text_to_display)
+   text_to_display = "Press ESC to exit"
+   stddraw.text(img_center_x, 4, text_to_display)
    # menu interaction loop
    while True:
       # display the menu and wait for a short time (50 ms)
       stddraw.show(50)
       # check if the mouse has been left-clicked
       if stddraw.hasNextKeyTyped():
-         key_typed = stddraw.nextKeyTyped()
-         # get the x and y coordinates of the location at which the mouse has
-         # most recently been left-clicked
-         mouse_x, mouse_y = stddraw.mouseX(), stddraw.mouseY()
+         key_typed = stddraw.nextKeyTyped() # gets typed key from user
          if key_typed == "escape":
             return True, 0  # break the loop to end the method and start the game
          elif key_typed == "r":

@@ -1,6 +1,7 @@
 import stddraw # the stddraw module is used as a basic graphics library
 from color import Color # used for coloring the game grid
 import numpy as np # fundamental Python module for scientific computing
+import sys
 from point import Point
 from tile import Tile
 # Class used for modelling the game grid
@@ -136,6 +137,7 @@ class GameGrid:
       return self.game_over
 
    def clean_row(self,score):
+      """A method to clean filled rows, also updates the given score by adding each tile in row."""
       ctr = 0
       scr = score # to keep score
       for row in range(self.grid_height):
@@ -163,8 +165,9 @@ class GameGrid:
 
       return scr
 
-   def merge_tetrominos(self, score):
 
+   def merge_tetrominos(self, score):
+      """Merges two same numbered tiles."""
       # height and width
       height = self.grid_height
       width = self.grid_width
@@ -209,10 +212,11 @@ class GameGrid:
                      self.tile_matrix[x][col] = temp
 
 
-      return score
+      return score # to update score
 
 
    def four_connected(self):
+      """ A simple 4-connected labeling algorithm. Two pass was not used because workspace is pretty low (12x20)"""
       height = self.grid_height
       width= self.grid_width
       labeled_grid = np.zeros(shape=(height+2, width+2))
@@ -228,28 +232,29 @@ class GameGrid:
       for i in range(1,height-1):
          for j in range(1, width-1):
             if new_tile_matrix[i][j] is not None:
-               if new_tile_matrix[i-1][j] is None and new_tile_matrix[i][j - 1] is None:
+               if new_tile_matrix[i-1][j] is None and new_tile_matrix[i][j - 1] is None: # up and left is not labeled
                   k += 1
-                  labeled_grid[i][j] = k
+                  labeled_grid[i][j] = k # label initial
 
-               elif new_tile_matrix[i - 1][j] is not None and new_tile_matrix[i][j - 1] is None:
-                  labeled_grid[i][j] = labeled_grid[i - 1][j]
+               elif new_tile_matrix[i - 1][j] is not None and new_tile_matrix[i][j - 1] is None: #up labeled, left non-labeled
+                  labeled_grid[i][j] = labeled_grid[i - 1][j] # label initial with up label
 
-               elif new_tile_matrix[i - 1][j] is None and new_tile_matrix[i][j - 1] is not None:
-                  labeled_grid[i][j] = labeled_grid[i][j - 1]
+               elif new_tile_matrix[i - 1][j] is None and new_tile_matrix[i][j - 1] is not None: # up is not labeled, left is labeled
+                  labeled_grid[i][j] = labeled_grid[i][j - 1] # label initial with left label
 
-               elif new_tile_matrix[i - 1][j] is not None and new_tile_matrix[i][j - 1] is not None:
-                  if labeled_grid[i - 1][j] == labeled_grid[i][j - 1]:
-                     labeled_grid[i][j] = labeled_grid[i][j - 1]
+               elif new_tile_matrix[i - 1][j] is not None and new_tile_matrix[i][j - 1] is not None: # both up and left are labeled
+                  if labeled_grid[i - 1][j] == labeled_grid[i][j - 1]: # up and left labels are equal
+                     labeled_grid[i][j] = labeled_grid[i][j - 1] # label initial with left label( up also works)
 
-                  else:
-                     labeled_grid[i][j] = labeled_grid[i-1][j]
-                     self.__change_label(labeled_grid, labeled_grid[i - 1][j], labeled_grid[i][j - 1], i, j)
+                  else: # both are not equal
+                     labeled_grid[i][j] = labeled_grid[i-1][j] # label initial with up
+                     self.__change_label(labeled_grid, labeled_grid[i - 1][j], labeled_grid[i][j - 1], i, j) # call change label
 
 
       return labeled_grid
 
    def __change_label(self,label ,up_lbl, left_lbl, i, j):
+      """A method that changes the wrong labels in 4-connected algorithm"""
       for x in range(i):
          for y in range(j):
             if label[x][y] == left_lbl:
@@ -306,6 +311,35 @@ class GameGrid:
                        self.tile_matrix[single_labeled_tiles[k][1] - i][single_labeled_tiles[k][0]] = None
                        self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
                        i += 1
+
+   def drop_tetromino(self):
+      """A method that is used to calculate how many tiles are in between current tetromino location and
+         droppable tiles(Highest tile on y-axis)"""
+
+      pos = self.current_tetromino.bottom_left_corner # bottom left of current tetromino
+
+
+      n = len(self.current_tetromino.tile_matrix) # length of current tetromino (4 at-max)
+      arr = np.full(shape=n, fill_value=pos.y) # lowest y point in current tetromino
+      arr2 = np.zeros(shape=n) # array to store highest y boundaries row by row  (grid in same lineage with tetromino)
+
+
+
+      try: # exception catch
+         for j in range(pos.x, pos.x + n): #searches loop between left to right by alignment to current tetromino
+            for i in range(pos.y): #searches between 0 to bottom
+               if self.tile_matrix[i][j] is not None and self.tile_matrix[i+1][j] is None: # initial is filled, up is empty
+                  arr2[pos.x+n-j-1] = i # updates upmost point
+      except IndexError:
+         pass
+
+      # negates each corresponding element from each other
+      for x in range(len(arr)):
+         arr[x] = arr[x] - arr2[len(arr)-1-x]
+
+      min_num = min(arr) - 1 # initialize minimum distance between current tetromino and grid
+      self.current_tetromino.drop_tetromino(min_num) # call drop_tetromino
+
 
 
    def reset(self):

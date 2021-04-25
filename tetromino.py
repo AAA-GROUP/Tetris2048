@@ -268,3 +268,17 @@ class Tetromino:
                      return False
                   break  # end the inner for loop
       return True  # tetromino can be moved in the given direction
+
+   #drops tetrmino by num tiles on y axis.
+   def drop_tetromino(self,num):
+      self.bottom_left_corner.y -= num
+      for i in range(len(self.tile_matrix)):
+         for j in range(len(self.tile_matrix)):
+            if self.tile_matrix[i][j] is not None:
+               self.tile_matrix[i][j].move(0, -num)
+
+
+
+
+
+
