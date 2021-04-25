@@ -140,9 +140,9 @@ def create_tetromino(grid_height, grid_width):
 # Function for displaying a simple menu before starting the game
 def display_game_menu(grid_height, grid_width):
    # colors used for the menu
-   background_color = Color(247, 237, 213)
+   background_color = Color(240, 208, 170)
    button_color = Color(31, 160, 239)
-   text_color = Color(10, 10, 10)
+   text_color = Color(205, 233, 247)
    # clear the background canvas to background_color
    stddraw.clear(background_color)
    # get the directory in which this python code file is placed
@@ -211,7 +211,7 @@ def pause_menu(grid_height, grid_width):
    stddraw.setFontFamily("Arial")
    stddraw.setFontSize(25)
    stddraw.setPenColor(text_color)
-   text_to_display = "Press ESC to continue"
+   text_to_display = "Press ESC to Continue"
    stddraw.text(img_center_x, 5, text_to_display)
    # menu interaction loop
    while True:
