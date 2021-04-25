@@ -29,11 +29,11 @@ class GameGrid:
       self.box_thickness = 2 * self.line_thickness
 
    # Method used for displaying the game grid
-   def display(self,score, next_tetromino,speed):
+   def display(self,score, next_tetrominos,speed):
       # clear the background canvas to empty_cell_color
       stddraw.clear(self.empty_cell_color)
       # draw the game grid
-      self.draw_grid(score, next_tetromino)
+      self.draw_grid(score, next_tetrominos)
       # draw the current (active) tetromino
       if self.current_tetromino != None:
          self.current_tetromino.draw()
@@ -44,25 +44,24 @@ class GameGrid:
       stddraw.show(speed)
          
    # Method for drawing the cells and the lines of the grid
-      def draw_grid(self, score, next_tetrominoes):
-
+   def draw_grid(self, score, next_tetrominoes):
 
        # draw each cell of the game grid
        for row in range(self.grid_height):
-           for col in range(self.grid_width):
-               # draw the tile if the grid cell is occupied by a tile
-               if self.tile_matrix[row][col] != None:
-                   self.tile_matrix[row][col].draw()
-                   # draw the inner lines of the grid
+          for col in range(self.grid_width):
+             # draw the tile if the grid cell is occupied by a tile
+             if self.tile_matrix[row][col] != None:
+                self.tile_matrix[row][col].draw()
+                # draw the inner lines of the grid
        stddraw.setPenColor(self.line_color)
        stddraw.setPenRadius(self.line_thickness)
        # x and y ranges for the game grid
        start_x, end_x = -0.5, self.grid_width - 0.5
        start_y, end_y = -0.5, self.grid_height - 0.5
        for x in np.arange(start_x + 1, end_x, 1):  # vertical inner lines
-           stddraw.line(x, start_y, x, end_y)
+          stddraw.line(x, start_y, x, end_y)
        for y in np.arange(start_y + 1, end_y, 1):  # horizontal inner lines
-           stddraw.line(start_x, y, end_x, y)
+          stddraw.line(start_x, y, end_x, y)
        stddraw.setPenRadius()  # reset the pen radius to its default value
        stddraw.setFontFamily("Arial")
        stddraw.setFontSize(25)
@@ -74,20 +73,20 @@ class GameGrid:
        i = 0
 
        for i in range(1, len(next_tetrominoes)):
-           xa = -1
-           yb = -1
-           for row in range(len(next_tetrominoes[i].tile_matrix)):
-               for col in range(len(next_tetrominoes[i].tile_matrix)):
-                   # draw the tile if the grid cell is occupied by a tile
-                   if next_tetrominoes[i].tile_matrix[row][col] != None:
-                       if (xa == -1):
-                           xa = next_tetrominoes[i].tile_matrix[row][col].position.x
-                       if (yb == -1):
-                           yb = next_tetrominoes[i].tile_matrix[row][col].position.y
-                       if i == 1:
-                           next_tetrominoes[i].tile_matrix[row][col].draw_next(xa, yb)
-                       if i == 2:
-                           next_tetrominoes[i].tile_matrix[row][col].draw_next_second(xa, yb)
+          xa = -1
+          yb = -1
+          for row in range(len(next_tetrominoes[i].tile_matrix)):
+             for col in range(len(next_tetrominoes[i].tile_matrix)):
+                # draw the tile if the grid cell is occupied by a tile
+                if next_tetrominoes[i].tile_matrix[row][col] != None:
+                   if (xa == -1):
+                      xa = next_tetrominoes[i].tile_matrix[row][col].position.x
+                   if (yb == -1):
+                      yb = next_tetrominoes[i].tile_matrix[row][col].position.y
+                   if i == 1:
+                      next_tetrominoes[i].tile_matrix[row][col].draw_next(xa, yb)
+                   if i == 2:
+                      next_tetrominoes[i].tile_matrix[row][col].draw_next_second(xa, yb)
 
       
    # Method for drawing the boundaries around the game grid 
@@ -362,36 +361,36 @@ class GameGrid:
                        self.tile_matrix[single_labeled_tiles[k][1] - i - 1][single_labeled_tiles[k][0]] = temp
                        i += 1
 
-       def drop_tetromino(self):
-        """A method that is used to calculate how many tiles are in between current tetromino location and
-           droppable tiles(Highest tile on y-axis)"""
+   def drop_tetromino(self):
+       """A method that is used to calculate how many tiles are in between current tetromino location and
+          droppable tiles(Highest tile on y-axis)"""
 
-        pos = self.current_tetromino.bottom_left_corner  # bottom left of current tetromino
+       pos = self.current_tetromino.bottom_left_corner  # bottom left of current tetromino
 
-        n = len(self.current_tetromino.tile_matrix)  # length of current tetromino (4 at-max)
-        arr = np.full(shape=n, fill_value=pos.y)  # lowest y point in current tetromino
-        arr2 = np.zeros(
-            shape=n)  # array to store highest y boundaries row by row  (grid in same lineage with tetromino)
+       n = len(self.current_tetromino.tile_matrix)  # length of current tetromino (4 at-max)
+       arr = np.full(shape=n, fill_value=pos.y)  # lowest y point in current tetromino
+       arr2 = np.zeros(
+          shape=n)  # array to store highest y boundaries row by row  (grid in same lineage with tetromino)
 
-        try:  # exception catch
-            for j in range(pos.x, pos.x + n):  # searches loop between left to right by alignment to current tetromino
-                if self.current_tetromino.tile_matrix[j].all() is None:
-                    continue
-                for i in range(pos.y):  # searches between 0 to bottom
-                    if self.tile_matrix[i][j] is not None and self.tile_matrix[i + 1][
-                        j] is None:  # initial is filled, up is empty
-                        arr2[pos.x + n - j - 1] = i  # updates upmost point
-        except IndexError:
-            pass
+       try:  # exception catch
+          for j in range(pos.x, pos.x + n):  # searches loop between left to right by alignment to current tetromino
+             if self.current_tetromino.tile_matrix[j].all() is None:
+                continue
+             for i in range(pos.y):  # searches between 0 to bottom
+                if self.tile_matrix[i][j] is not None and self.tile_matrix[i + 1][
+                   j] is None:  # initial is filled, up is empty
+                   arr2[pos.x + n - j - 1] = i  # updates upmost point
+       except IndexError:
+          pass
 
-        # negates each corresponding element from each other
-        for x in range(len(arr)):
-            arr[x] = arr[x] - arr2[len(arr) - 1 - x]
+       # negates each corresponding element from each other
+       for x in range(len(arr)):
+          arr[x] = arr[x] - arr2[len(arr) - 1 - x]
 
-        min_num = min(arr) - 1  # initialize minimum distance between current tetromino and grid
+       min_num = min(arr) - 1  # initialize minimum distance between current tetromino and grid
 
-        #self.current_tetromino.drop_tetromino(min_num)  # call drop_tetromino
-        return min_num
+       # self.current_tetromino.drop_tetromino(min_num)  # call drop_tetromino
+       return min_num
 
 
 

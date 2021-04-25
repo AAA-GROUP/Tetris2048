@@ -140,7 +140,7 @@ def start():
          tetromino_list.append(create_tetromino(grid_h, grid_w))
 
       # display the game grid and as well the current tetromino      
-      grid.display(score, next_tetromino,initial_speed)
+      grid.display(score, tetromino_list,initial_speed)
 
 
 
