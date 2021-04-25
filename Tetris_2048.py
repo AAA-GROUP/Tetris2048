@@ -94,7 +94,6 @@ def start():
             continue
          else:
             initial_speed -= 10
-            is_cleaned = False
 
 
 
