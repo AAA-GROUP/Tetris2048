@@ -14,6 +14,9 @@ import math
 def start():
 
    score = 0
+   cleaned_rows = 0
+   is_cleaned = False
+   initial_speed = 300
    # set the dimensions of the game grid
    grid_h, grid_w = 20, 12
    # set the size of the drawing canvas
@@ -83,7 +86,17 @@ def start():
            grid.move_single_tile()
 
       score = grid.merge_tetrominos(score) # merges same numbered tiles.
-      score = grid.clean_row(score) # cleans row if row is full.
+
+      score,cleaned_rows,is_cleaned = grid.clean_row(score,cleaned_rows) # cleans row if row is full.
+
+      if cleaned_rows % 2 == 0 and is_cleaned: # if a row is merged, increases game speed
+         if initial_speed == 120:
+            continue
+         else:
+            initial_speed -= 10
+            is_cleaned = False
+
+
 
 
 
@@ -111,7 +124,7 @@ def start():
          grid.current_tetromino = current_tetromino
 
       # display the game grid and as well the current tetromino      
-      grid.display(score, next_tetromino)
+      grid.display(score, next_tetromino,initial_speed)
 
 
 

@@ -29,7 +29,7 @@ class GameGrid:
       self.box_thickness = 8 * self.line_thickness
 
    # Method used for displaying the game grid
-   def display(self,score, next_tetromino):
+   def display(self,score, next_tetromino,speed):
       # clear the background canvas to empty_cell_color
       stddraw.clear(self.empty_cell_color)
       # draw the game grid
@@ -41,7 +41,7 @@ class GameGrid:
       # draw a box around the game grid 
       self.draw_boundaries()
       # show the resulting drawing with a pause duration = 250 ms
-      stddraw.show(300)
+      stddraw.show(speed)
          
    # Method for drawing the cells and the lines of the grid
    def draw_grid(self,score, next_tetromino):
@@ -136,10 +136,12 @@ class GameGrid:
       # return the game_over flag
       return self.game_over
 
-   def clean_row(self,score):
+   def clean_row(self,score,cleaned_rows):
       """A method to clean filled rows, also updates the given score by adding each tile in row."""
       ctr = 0
       scr = score # to keep score
+
+      is_cleaned = False
       for row in range(self.grid_height):
          for col in range(self.grid_width):
             # Counts filled tiles.
@@ -148,6 +150,8 @@ class GameGrid:
 
          # Check if row is full
          if ctr == self.grid_width:
+            is_cleaned = True
+            cleaned_rows += 1
             # Delete full row and add to score
             for y in range(self.grid_width):
                scr += self.tile_matrix[row][y].get_number()
@@ -163,7 +167,7 @@ class GameGrid:
 
          ctr = 0
 
-      return scr
+      return scr,cleaned_rows,is_cleaned # return score and updated cleaned rows
 
 
    def merge_tetrominos(self, score):
