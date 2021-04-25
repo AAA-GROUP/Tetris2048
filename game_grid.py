@@ -20,13 +20,13 @@ class GameGrid:
       # game_over flag shows whether the game is over/completed or not
       self.game_over = False
       # set the color used for the empty grid cells
-      self.empty_cell_color = Color(247, 237, 213)
+      self.empty_cell_color = Color(199, 189, 173)
       # set the colors used for the grid lines and the grid boundaries
-      self.line_color = Color(0, 100, 200) 
-      self.boundary_color = Color(0, 100, 200)
+      self.line_color = Color(173, 164, 149)
+      self.boundary_color = Color(173, 164, 149)
       # thickness values used for the grid lines and the grid boundaries 
-      self.line_thickness = 0.002
-      self.box_thickness = 8 * self.line_thickness
+      self.line_thickness = 0.008
+      self.box_thickness = 2 * self.line_thickness
 
    # Method used for displaying the game grid
    def display(self,score, next_tetromino,speed):
@@ -72,8 +72,8 @@ class GameGrid:
       stddraw.text(14, 18, "Score")
       stddraw.text(14, 14, "Next Shape")
       # draw each cell of the game grid
-      xa =-1
-      yb =-1
+      xa = -1
+      yb = -1
       for row in range(len(next_tetromino.tile_matrix)):
          for col in range(len(next_tetromino.tile_matrix)):
             # draw the tile if the grid cell is occupied by a tile
@@ -192,14 +192,56 @@ class GameGrid:
                   new_num = self.tile_matrix[row][col].get_number() * 2 # update tile number
                   score += new_num  # update score
 
-                  # update color
-                  c1 = int(256 / (new_num + 1) + 90) % 256
-                  c2 = int(256 / (new_num - 1) + 90) % 256
-                  c3 = int(256 / new_num + 90) % 256
+                  self.tile_matrix[row][col].set_foreground_color(255, 238, 214)
+                  if new_num == 4:
+                     self.tile_matrix[row][col].set_foreground_color(130, 114, 92)
+                     c1 = 240
+                     c2 = 208
+                     c3 = 170
+                  elif new_num == 8:
+                     c1 = 237
+                     c2 = 187
+                     c3 = 153
+                  elif new_num == 16:
+                     c1 = 199
+                     c2 = 111
+                     c3 = 74
+                  elif new_num == 32:
+                     c1 = 201
+                     c2 = 94
+                     c3 = 48
+                  elif new_num == 64:
+                     c1 = 224
+                     c2 = 40
+                     c3 = 34
+                  elif new_num == 128:
+                     c1 = 219
+                     c2 = 222
+                     c3 = 78
+                  elif new_num == 256:
+                     c1 = 192
+                     c2 = 192
+                     c3 = 68
+                  elif new_num == 512:
+                     c1 = 177
+                     c2 = 179
+                     c3 = 62
+                  elif new_num == 1024:
+                     c1 = 151
+                     c2 = 153
+                     c3 = 54
+                  elif new_num == 2048:
+                     c1 = 138
+                     c2 = 140
+                     c3 = 34
+                  else:
+                     c1 = 0
+                     c2 = 0
+                     c3 = 0
 
                   # update in matrix
                   self.tile_matrix[row][col].set_number(new_num)
-                  self.tile_matrix[row][col].set_color(c1,c2,c3)
+                  self.tile_matrix[row][col].set_color(c1, c2, c3)
 
                   # set up-adjacent tile to zero
                   self.tile_matrix[row+1][col] = None
