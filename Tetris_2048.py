@@ -23,15 +23,21 @@ def start():
    canvas_h, canvas_w = 40 * grid_h, 40 * (grid_w + 10)
    stddraw.setCanvasSize(canvas_w + 10, canvas_h)
    # set the scale of the coordinate system
-   stddraw.setXscale(-1.5, grid_w + 9.5)
+   stddraw.setXscale(-0.5, grid_w + 9.5)
    stddraw.setYscale(-0.5, grid_h - 0.5)
+   is_mouse_on = False
    
    # create the game grid
    grid = GameGrid(grid_h, grid_w)
    # create the first tetromino to enter the game grid 
    # by using the create_tetromino function defined below
-   current_tetromino = create_tetromino(grid_h, grid_w)
-   next_tetromino = create_tetromino(grid_h, grid_w)
+   
+   tetromino_list = []
+   tetromino_list.append(create_tetromino(grid_h, grid_w))
+   tetromino_list.append(create_tetromino(grid_h, grid_w))
+   tetromino_list.append(create_tetromino(grid_h, grid_w))
+   
+   current_tetromino = tetromino_list[0]
    grid.current_tetromino = current_tetromino
 
    # display a simple menu before opening the game
@@ -69,13 +75,24 @@ def start():
          elif key_typed == "escape": # pause menu
             pause_menu(grid_h, grid_w+10)
 
-         elif key_typed == "up": # if up key is pressed, drops automatically buy maximum droppable level
-            grid.drop_tetromino()
+         elif key_typed == "up":  # if up key is pressed, drops automatically buy maximum droppable level
+             a = 1
+             distance = grid.drop_tetromino() + 1
+             while a <= distance + 2:
+                 grid.current_tetromino.move("down", grid)
+                 a += 1
+         elif key_typed == "m":
+             is_mouse_on = not is_mouse_on
 
 
          # clear the queue that stores all the keys pressed/typed
          stddraw.clearKeysTyped()
 
+         
+         
+      if is_mouse_on:
+         grid.current_tetromino.move_mouse(grid)
+     
       # move (drop) the tetromino down by 1 at each iteration 
       success = current_tetromino.move("down", grid)
       
@@ -117,10 +134,10 @@ def start():
 
          # create the next tetromino to enter the game grid
          # by using the create_tetromino function defined below
-         current_tetromino = next_tetromino
-         next_tetromino = create_tetromino(grid_h, grid_w)
-         grid.next_tetromino = next_tetromino
+         del tetromino_list[0]
+         current_tetromino = tetromino_list[0]
          grid.current_tetromino = current_tetromino
+         tetromino_list.append(create_tetromino(grid_h, grid_w))
 
       # display the game grid and as well the current tetromino      
       grid.display(score, next_tetromino,initial_speed)
