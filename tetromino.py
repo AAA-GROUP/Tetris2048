@@ -276,6 +276,47 @@ class Tetromino:
          for j in range(len(self.tile_matrix)):
             if self.tile_matrix[i][j] is not None:
                self.tile_matrix[i][j].move(0, -num)
+               
+       def move_mouse(self, grid):
+        screen_resolution = pyautogui.size()
+        mouse_position = pygame.mouse.get_pos()
+
+
+        mouse_x_coordinate = mouse_position[0]
+        mouse_x_position_on_grid = mouse_x_coordinate / 40
+        print(mouse_x_position_on_grid)
+
+        if mouse_x_position_on_grid <= grid.current_tetromino.bottom_left_corner.x:
+            print("su an sola gidiyoruz")
+            a = 0
+            while mouse_x_position_on_grid < grid.current_tetromino.bottom_left_corner.x or mouse_x_position_on_grid == 0:
+                if not grid.current_tetromino.move("left", grid):
+                    break
+                if mouse_x_position_on_grid <= 0:
+                    mouse_x_position_on_grid = 0
+                    a += 1
+                    if a == 2:
+                        break
+
+
+        elif mouse_x_position_on_grid >= grid.current_tetromino.bottom_left_corner.x:
+            print("su an saga gidiyoruz")
+            b = 0
+            while mouse_x_position_on_grid > grid.current_tetromino.bottom_left_corner.x + len(
+                    grid.current_tetromino.tile_matrix):
+
+                if not grid.current_tetromino.move("right", grid):
+                    break
+                if mouse_x_position_on_grid >= 11:
+                    mouse_x_position_on_grid = 11
+                    b += 1
+                    if b == 2:
+                        break
+
+
+
+
+
 
 
 
