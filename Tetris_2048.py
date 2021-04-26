@@ -75,7 +75,7 @@ def start():
          elif key_typed == "escape": # pause menu
             pause_menu(grid_h, grid_w+10)
 
-         elif key_typed == "up":  # if up key is pressed, drops automatically buy maximum droppable level
+         elif key_typed == "space":  # if space is pressed, drops automatically buy maximum droppable level
              a = 1
              distance = grid.drop_tetromino() + 1
              while a <= distance + 2:
