@@ -69,7 +69,7 @@ class GameGrid:
         stddraw.setFontSize(25)
 
         a = score
-        stddraw.setPenColor(stddraw.GREEN)
+        stddraw.setPenColor(stddraw.BLACK)
         stddraw.boldText(14.4, 17, str(a))
         stddraw.setPenColor(Color(31, 160, 239))
         stddraw.text(14.4, 18, "Score")
