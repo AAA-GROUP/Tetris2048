@@ -106,7 +106,6 @@ class GameGrid:
         stddraw.setPenColor(stddraw.BLACK)
         stddraw.text(19, 2.8, "m")
 
-
         for i in range(1, len(next_tetrominoes)):
             xa = -1
             yb = -1
@@ -114,9 +113,9 @@ class GameGrid:
                 for col in range(len(next_tetrominoes[i].tile_matrix)):
                     # draw the tile if the grid cell is occupied by a tile
                     if next_tetrominoes[i].tile_matrix[row][col] != None:
-                        if (xa == -1):
+                        if xa == -1:
                             xa = next_tetrominoes[i].tile_matrix[row][col].position.x
-                        if (yb == -1):
+                        if yb == -1:
                             yb = next_tetrominoes[i].tile_matrix[row][col].position.y
                         if i == 1:
                             next_tetrominoes[i].tile_matrix[row][col].draw_next(xa, yb)
@@ -307,8 +306,8 @@ class GameGrid:
 
         height += 2
         width += 2
-
         k = 0
+
         for i in range(1, height - 1):
             for j in range(1, width - 1):
                 if new_tile_matrix[i][j] is not None:
@@ -349,7 +348,7 @@ class GameGrid:
                 label[i][n] = up_lbl
 
     def find_different_labels(self, labeled_grid):
-
+        """An algorithm to store the coordinates of the unconnected tiles which have a distinctive label"""
         coordinates_array = np.zeros((10, 2), dtype=np.int8)
         num_of_single_labels = 0
         for x in range(1, self.grid_height + 1):
@@ -374,6 +373,7 @@ class GameGrid:
         return coordinates_array
 
     def move_single_tile(self):
+        """ A method to move the unconnected tiles downwards"""
         single_labeled_tiles = self.find_different_labels(self.four_connected())
         if len(single_labeled_tiles) != 0:
             for k in range(len(single_labeled_tiles)):
@@ -423,8 +423,7 @@ class GameGrid:
             arr[x] = arr[x] - arr2[len(arr) - 1 - x]
 
         min_num = min(arr) - 1  # initialize minimum distance between current tetromino and grid
-
-        # self.current_tetromino.drop_tetromino(min_num)  # call drop_tetromino
+        # returns the distance that the tile can move
         return min_num
 
     def reset(self):
