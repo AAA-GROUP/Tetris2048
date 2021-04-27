@@ -290,7 +290,7 @@ class Tetromino:
                 if mouse_x_position_on_grid <= 0:
                     mouse_x_position_on_grid = 0
                     a += 1
-                    if a == 2:
+                    if a == 13:
                         break
 
         elif mouse_x_position_on_grid >= grid.current_tetromino.bottom_left_corner.x:
@@ -303,5 +303,5 @@ class Tetromino:
                 if mouse_x_position_on_grid >= 11:
                     mouse_x_position_on_grid = 11
                     b += 1
-                    if b == 2:
+                    if b == 13:
                         break
