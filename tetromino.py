@@ -284,7 +284,7 @@ class Tetromino:
 
         if mouse_x_position_on_grid <= grid.current_tetromino.bottom_left_corner.x:
             a = 0
-            while mouse_x_position_on_grid < grid.current_tetromino.bottom_left_corner.x or mouse_x_position_on_grid == 0:
+            while mouse_x_position_on_grid < grid.current_tetromino.bottom_left_corner.x + 1 or mouse_x_position_on_grid == 0:
                 if not grid.current_tetromino.move("left", grid):
                     break
                 if mouse_x_position_on_grid <= 0:
@@ -296,7 +296,7 @@ class Tetromino:
         elif mouse_x_position_on_grid >= grid.current_tetromino.bottom_left_corner.x:
             b = 0
             while mouse_x_position_on_grid > grid.current_tetromino.bottom_left_corner.x + len(
-                    grid.current_tetromino.tile_matrix):
+                    grid.current_tetromino.tile_matrix) - 1:
 
                 if not grid.current_tetromino.move("right", grid):
                     break
